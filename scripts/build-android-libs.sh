@@ -26,9 +26,9 @@
 # The configuration below builds libheif with heic decoding only.
 
 # Set these variables to suit your needs
-NDK_PATH= ... # for example .../android-sdk/sdk/ndk/25.1.8937393
+NDK_PATH=/Users/bytedance/Library/Android/sdk/ndk/25.1.8937393
 TOOLCHAIN=clang
-ANDROID_VERSION=24 # the minimum version of Android to support
+ANDROID_VERSION=24
 
 function build {
     mkdir -p build/$1
@@ -40,7 +40,7 @@ function build {
 	  -DANDROID_ARM_MODE=arm \
 	  -DANDROID_PLATFORM=android-${ANDROID_VERSION} \
 	  -DANDROID_TOOLCHAIN=${TOOLCHAIN} \
-    	  -DENABLE_PLUGIN_LOADING=OFF \
+    -DENABLE_PLUGIN_LOADING=ON \
 	  -DBUILD_TESTING=OFF \
 	  -DWITH_AOM_DECODER=OFF \
 	  -DWITH_AOM_DECODER_PLUGIN=OFF \
@@ -53,10 +53,16 @@ function build {
 	  -DWITH_LIBDE265_PLUGIN=OFF \
 	  -DWITH_RAV1E=OFF \
 	  -DWITH_SvtEnc=OFF \
-	  -DWITH_X265=OFF \
+	  -DWITH_X265=ON \
+	  -DWITH_JPEG_DECODER=ON \
+	  -DWITH_JPEG_ENCODER=ON \
+	  -DWITH_OpenJPEG_ENCODER=ON \
+	  -DWITH_OpenJPEG_DECODER=ON \
 	  -DCMAKE_INSTALL_PREFIX=../../out/$1 \
 	  -DCMAKE_BUILD_TYPE=Release \
 	  -Dld-version-script=OFF \
+	  -DJPEG_INCLUDE_DIR=/opt/homebrew/opt/jpeg/include \
+    -DJPEG_LIBRARY=~/Downloads/libjpeg.so \
 	  ../..
 
     make VERBOSE=1
